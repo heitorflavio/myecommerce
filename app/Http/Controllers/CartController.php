@@ -28,6 +28,26 @@ class CartController extends Controller
         //
     }
 
+   /**
+    * It checks if the product is already in the cart.
+    * 
+    * @param product_id The id of the product you want to add to the cart
+    * @param customer_id The id of the customer
+    * 
+    * @return The id of the cart item if it exists, otherwise false.
+    */
+    public function check($product_id, $customer_id){
+        $cart = Cart::where('customer_id', $customer_id)->where('product_id', $product_id)->where('status', 1)->get();
+       try{
+        if($cart[0]->id){
+            return $cart[0]->id;
+        }
+         }catch(\Exception $e){
+              return false;
+         }
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -36,9 +56,16 @@ class CartController extends Controller
      */
     public function store(StoreCartRequest $request)
     {
-        //
-        $cart = Cart::create($request->all());
-        return $cart;
+        $check = $this->check($request->product_id, $request->customer_id);
+        if($check){
+            $cart = Cart::find($check);
+            $cart->quantity = $cart->quantity + $request->quantity;
+            $cart->save();
+            return $cart;
+        }else{
+            $cart = Cart::create($request->all());
+            return $cart;
+        }
     }
 
     /**
