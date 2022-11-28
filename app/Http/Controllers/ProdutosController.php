@@ -16,8 +16,21 @@ class ProdutosController extends Controller
     public function index()
     {
         //
+
         $produtos = Produtos::all();
         return $produtos;
+     
+    }
+
+    public function query(StoreProdutosRequest $request)
+    {
+        //
+        $query = $request->query();
+        $query = $query['busca'];
+        // $produtos = Produtos::where($query)->get();
+        $produtos = Produtos::where('name', 'LIKE','%'.$query.'%')->orWhere('description', 'LIKE','%'.$query.'%')->get();
+        return $produtos;
+     
     }
 
     /**

@@ -17,6 +17,7 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('email', 100);
+            $table->string('token')->default('null');
             $table->string('password', 100);
             $table->string('address', 100);
             $table->string('city', 100);
@@ -24,8 +25,8 @@ class CreateCustomersTable extends Migration
             $table->string('country', 100);
             $table->string('zip', 100);
             $table->string('phone', 100);
-            
             $table->timestamps();
+            $table->unique('email');
         });
     }
 

@@ -16,8 +16,40 @@ class CustomerController extends Controller
     public function index()
     {
         //
+    
+       
     }
+    public function  me(Customer $customer,StoreCustomerRequest $request){
+        // print_r($request->bearerToken());
+        $customer = Customer::where('token', $request->token)->get();
+        try{
+            if($customer[0]->id){
+                return $customer[0];
+            }
+        }catch(\Exception $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    }
+    public function login(UpdateCustomerRequest $request,Customer $customer)
+    {
+        //
+        $customer = Customer::where('email', $request->email)->where('password', $request->password)->first();
+        if ($customer) {
+            $email = bcrypt($customer->email);
+            $name = bcrypt($customer->name);
+            $date = bcrypt(date('Y-m-d'));
+            $token = $email . $name . $date;
+            // $token = $email . $name;
+            // $customer->where('email', $request->email)->where('password', $request->password)->update(['token' => $token]);
+            $customer->update(['token' => $token]);
+            return response()->json(['token' => $token], 200);
 
+            // return response()->json($token, 200);
+        } else {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+        
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -26,6 +58,7 @@ class CustomerController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -37,6 +70,8 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         //
+        $customer = Customer::create($request->all());
+        return response()->json($customer, 201);
     }
 
     /**
@@ -71,6 +106,8 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         //
+        $customer->update($request->all());
+        return response()->json($customer, 200);
     }
 
     /**

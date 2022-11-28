@@ -74,11 +74,10 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show(Cart $cart, StoreCartRequest $request)
     {
         //
-        $cart = Cart::where('customer_id', $cart->id)->where('status', 1)->get();
-
+        $cart = Cart::where('customer_id', $request->customer_id)->where('status', 1)->get();
         return $cart;
     }
 
@@ -103,7 +102,7 @@ class CartController extends Controller
     public function update(UpdateCartRequest $request, Cart $cart)
     {
         //
-        $cart->update($request->all());
+        $cart->find($cart->id)->update($request->all());
         return $cart;
     }
 
@@ -118,7 +117,6 @@ class CartController extends Controller
         //
          
         $cart = Cart::where('id', $cart->id)->update(['status' => 0]);
-
         return $cart;
     }
 }

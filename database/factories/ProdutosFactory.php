@@ -20,6 +20,7 @@ class ProdutosFactory extends Factory
             'Fulldescription' => $this->faker->text(),
             'image' => $this->faker->imageUrl(),
             'price' => $this->faker->randomFloat(2, 1, 100),
+            'sku' => $this->faker->randomNumber(8),
             'stock' => $this->faker->randomFloat(2, 1, 100),
             'onSalePrice' => $this->faker->randomFloat(2, 1, 100),
             'onSale' => $this->faker->numberBetween(0, 1),
