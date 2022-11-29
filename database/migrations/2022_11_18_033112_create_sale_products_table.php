@@ -18,7 +18,6 @@ class CreateSaleProductsTable extends Migration
             $table->foreignId('sale_id')->constrained('sales');
             $table->integer('product_id');
             $table->integer('product_sku');
-            $table->string('product_name', 100);
             $table->float('product_price');
             $table->float('product_total');
             $table->integer('product_quantity');

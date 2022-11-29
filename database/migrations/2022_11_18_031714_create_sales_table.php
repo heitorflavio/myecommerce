@@ -26,6 +26,11 @@ class CreateSalesTable extends Migration
             $table->string("customer_country", 100);
             $table->string("customer_notes", 100);
             $table->float('total');
+            $table->string("valor_frete", 100);
+            $table->string("frete_status", 100);
+            $table->string("frete", 100);
+            $table->string("payment_method", 100);
+            $table->string("payment_status", 100);
             $table->timestamps();
         });
     }

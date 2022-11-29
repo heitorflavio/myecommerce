@@ -59,3 +59,10 @@ Route::post('me', 'CustomerController@me');
 Route::post('/wishlist', 'WishlistController@show');
 Route::post('/wish', 'WishlistController@store');
 Route::delete('/wish/{id}', 'WishlistController@destroy');
+
+Route::post('/order', 'SalesController@store');
+Route::get('/orders', 'SalesController@index');
+
+
+Route::post('/order/product', 'SalesProductController@store');
+Route::get('/orders/product', 'SalesProductController@index');
